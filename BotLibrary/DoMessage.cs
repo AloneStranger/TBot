@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineKeyboardButtons;
@@ -230,12 +231,32 @@ namespace BotLibrary
             }
         }
 
-        static void DoTimer(Message command)
+        static async void DoTimer(Message command)
         {
-            SetTimer(command.From.Id, 1, "Test");
+            string[] arr = command.Text.Split(' ');
+            if (arr.Length < 2)
+            {
+                await Main.Bot.SendTextMessageAsync(command.From.Id, "Недостаточно аргументов");
+                return;
+            }
+
+            NumberStyles style = NumberStyles.AllowDecimalPoint;
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+            double hours;
+            if (!Double.TryParse(arr[1].Replace(',', '.'), style, culture, out hours))
+            {
+                await Main.Bot.SendTextMessageAsync(command.From.Id, "Некорректный интервал");
+                return;
+            }
+
+            string desc = "По умолчанию";
+            if (arr.Length > 2)
+                desc = String.Join(" ", arr, 2, arr.Length - 2);
+
+            SetTimer(command.From.Id, hours, desc);
         }
 
-        public static async void SetTimer(int UId, int Hours, string Description)
+        public static async void SetTimer(int UId, double Hours, string Description)
         {
             if (!DBWork.CheckRight(UId, "timer"))
             {

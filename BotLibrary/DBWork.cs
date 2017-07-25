@@ -18,7 +18,7 @@ namespace BotLibrary
             return true;
         }
 
-        public static bool SetTimer(int UId, int Duration, string Description)
+        public static bool SetTimer(int UId, double Duration, string Description)
         {
             return true;
         }
