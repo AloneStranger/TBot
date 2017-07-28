@@ -79,10 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TBot.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TBot_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>TBot.mdf</DependentUpon>
     </Content>
   </ItemGroup>

@@ -167,6 +167,7 @@ namespace BotLibrary
         /// <param name="command">Сообщение, содержащее команду</param>
         async static void Command(Message command)
         {
+            /*
             //Пример работы с inline кнопками
             if (command.Text.ToLower() == "/tes2")
             {
@@ -187,7 +188,8 @@ namespace BotLibrary
                 await Main.Bot.SendTextMessageAsync(command.Chat.Id, "Выбери число!", replyMarkup: keyboard);
                 return;
             }
-
+            */
+            /*
             //Пример работы с reply кнопками
             if (command.Text.ToLower() == "/test1")
             {
@@ -203,7 +205,7 @@ namespace BotLibrary
                 };
 
                 await Main.Bot.SendTextMessageAsync(command.Chat.Id, "Посчитаем?", replyMarkup: keyboard);
-            }
+            }*/
 
             if (command.Text.ToLower() == "/timer")
             {
@@ -220,7 +222,23 @@ namespace BotLibrary
                     }
                 );
 
-                await Main.Bot.SendTextMessageAsync(command.Chat.Id, "Установи таймер", replyMarkup:keyboard);
+                await Main.Bot.SendTextMessageAsync(command.Chat.Id, "Установи таймер", replyMarkup: keyboard);
+                return;
+            }
+
+            if (command.Text.ToLower() == "/list")
+            {
+                await Main.Bot.SendTextMessageAsync(command.From.Id, DBWork.GetTimers(command.From.Id), parseMode: ParseMode.Html);
+                return;
+            }
+
+            if (command.Text.ToLower() == "/reg")
+            {
+                var res = DBWork.Register(command.From.Id);
+                if (String.IsNullOrEmpty(res))
+                    await Main.Bot.SendTextMessageAsync(command.From.Id, "Регистрация успешна");
+                else
+                    await Main.Bot.SendTextMessageAsync(command.From.Id, String.Format("Ошибка регистрации: {0}", res));
                 return;
             }
 

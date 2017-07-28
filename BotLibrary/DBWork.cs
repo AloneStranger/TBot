@@ -1,16 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace BotLibrary
 {
     public static class DBWork
     {
-        public static bool Register(int UId)
+        private static SqlConnection _cn = new SqlConnection(String.Format(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = {0}TBot.mdf; Integrated Security = True; Connect Timeout = 30", AppDomain.CurrentDomain.BaseDirectory));
+
+        private static SqlConnection con{ get { try { _cn.Open(); } catch { } return _cn; } }
+
+        public static string Register(int UId)
         {
-            return true;
+            try
+            {
+                using (var cmd = new SqlCommand("", con))
+                {
+                    cmd.CommandText = @"Insert into ";
+                    return "";
+                }
+            }
+            catch (Exception e) { return e.Message; }
         }
 
         public static bool CheckRight(int UId, string right)
