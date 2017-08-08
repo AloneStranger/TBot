@@ -303,7 +303,7 @@ namespace BotLibrary
                 Command(message);
                 return;
             }
-
+            //
             //await Bot.SendTextMessageAsync(message.Chat.Id, message.Text, replyToMessageId: message.MessageId);
         }
 
