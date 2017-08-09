@@ -234,7 +234,7 @@ namespace BotLibrary
 
             if (command.Text.ToLower() == "/reg")
             {
-                var res = DBWork.Register(command.From.Id);
+                var res = DBWork.Register(command.From.Id, command.From.Username);
                 if (String.IsNullOrEmpty(res))
                     await Main.Bot.SendTextMessageAsync(command.From.Id, "Регистрация успешна");
                 else

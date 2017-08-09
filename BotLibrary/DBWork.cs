@@ -9,14 +9,25 @@ namespace BotLibrary
 
         private static SqlConnection con{ get { try { _cn.Open(); } catch { } return _cn; } }
 
-        public static string Register(int UId)
+        private static Int32 getInt(object data) { return Int32.Parse(data.ToString()); }
+
+
+        public static string Register(int UId, string UName)
         {
             try
             {
-                using (var cmd = new SqlCommand("", con))
+                using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = @"Insert into ";
-                    return "";
+                    cmd.CommandText = String.Format("SELECT COUNT(1) FROM dbo.Users WHERE UId = {0}", UId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (getInt(reader.GetValue(0)) > 0)
+                            return "Уже зарегистрирован";
+
+                        cmd.CommandText = String.Format("INSERT INTO dbo.Users(UId,UName) VALUES ({0}, '{1}')", UId, UName);
+                        cmd.ExecuteNonQuery();
+                        return "";
+                    }
                 }
             }
             catch (Exception e) { return e.Message; }
@@ -24,7 +35,17 @@ namespace BotLibrary
 
         public static bool CheckRight(int UId, string right)
         {
-            return true;
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandText = String.Format("SELECT COUNT(1) FROM dbo.Rights WHERE UId = {0} AND URight = '{1}'", UId, right.ToLower());
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                        return getInt(reader.GetValue(0)) > 0;
+                }
+                catch { }
+            }
+            return false;
         }
 
         public static bool SetTimer(int UId, double Duration, string Description)

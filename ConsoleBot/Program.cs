@@ -24,7 +24,7 @@ namespace ConsoleBot
 
             //Стартуем бота
             DoWork();
-
+            
             //Ждем Enter для завершения работы
             Console.ReadLine();
         }
