@@ -7,21 +7,21 @@ namespace BotLibrary
     {
         private static SqlConnection _cn = new SqlConnection(String.Format(@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = {0}TBot.mdf; Integrated Security = True; Connect Timeout = 30", AppDomain.CurrentDomain.BaseDirectory));
 
-        private static SqlConnection con{ get { try { _cn.Open(); } catch { } return _cn; } }
+        private static SqlConnection Con{ get { try { _cn.Open(); } catch { } return _cn; } }
 
-        private static Int32 getInt(object data) { return Int32.Parse(data.ToString()); }
+        private static Int32 GetInt(object data) { return Int32.Parse(data.ToString()); }
 
 
         public static string Register(int UId, string UName)
         {
             try
             {
-                using (var cmd = con.CreateCommand())
+                using (var cmd = Con.CreateCommand())
                 {
                     cmd.CommandText = String.Format("SELECT COUNT(1) FROM dbo.Users WHERE UId = {0}", UId);
                     using (var reader = cmd.ExecuteReader())
                     {
-                        if (getInt(reader.GetValue(0)) > 0)
+                        if (GetInt(reader.GetValue(0)) > 0)
                             return "Уже зарегистрирован";
 
                         cmd.CommandText = String.Format("INSERT INTO dbo.Users(UId,UName) VALUES ({0}, '{1}')", UId, UName);
@@ -35,13 +35,13 @@ namespace BotLibrary
 
         public static bool CheckRight(int UId, string right)
         {
-            using (var cmd = con.CreateCommand())
+            using (var cmd = Con.CreateCommand())
             {
                 cmd.CommandText = String.Format("SELECT COUNT(1) FROM dbo.Rights WHERE UId = {0} AND URight = '{1}'", UId, right.ToLower());
                 try
                 {
                     using (var reader = cmd.ExecuteReader())
-                        return getInt(reader.GetValue(0)) > 0;
+                        return GetInt(reader.GetValue(0)) > 0;
                 }
                 catch { }
             }

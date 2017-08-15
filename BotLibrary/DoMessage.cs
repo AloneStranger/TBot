@@ -168,28 +168,6 @@ namespace BotLibrary
         async static void Command(Message command)
         {
             /*
-            //Пример работы с inline кнопками
-            if (command.Text.ToLower() == "/tes2")
-            {
-                var keyboard = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup(
-                    new InlineKeyboardButton[][]
-                    {
-                        new [] {
-                            InlineKeyboardButton.WithCallbackData("1", "callback1"),
-                            InlineKeyboardButton.WithCallbackData("2", "callback2"),
-                        },
-                        new [] {
-                            InlineKeyboardButton.WithCallbackData("3", "callback3"),
-                        },
-
-                    }
-                );
-
-                await Main.Bot.SendTextMessageAsync(command.Chat.Id, "Выбери число!", replyMarkup: keyboard);
-                return;
-            }
-            */
-            /*
             //Пример работы с reply кнопками
             if (command.Text.ToLower() == "/test1")
             {
@@ -260,7 +238,7 @@ namespace BotLibrary
 
             NumberStyles style = NumberStyles.AllowDecimalPoint;
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
-            double hours;
+            double hours = 0;
             if (!Double.TryParse(arr[1].Replace(',', '.'), style, culture, out hours))
             {
                 await Main.Bot.SendTextMessageAsync(command.From.Id, "Некорректный интервал");
